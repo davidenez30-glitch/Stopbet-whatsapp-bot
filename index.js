@@ -29,7 +29,7 @@ client.on("message", async (message) => {
   if (msg === "oi" || msg === "menu") {
     client.sendMessage(
       message.from,
-      `🙏 *Bem-vindo ao StopBet!*\n\n` +
+      `🤖 *Bem-vindo ao StopBet!*\n\n` +
       `Escolha uma opção:\n` +
       `1️⃣ Preciso parar de apostar\n` +
       `2️⃣ Estou com recaída\n` +
@@ -40,21 +40,21 @@ client.on("message", async (message) => {
   if (msg === "1") {
     client.sendMessage(
       message.from,
-      "💪 Você já deu o primeiro passo! Reconhecer é o começo da mudança. Afaste-se dos aplicativos e procure apoio."
+      `💪 Você já deu o primeiro passo! Reconhecer o problema é o começo da mudança.\n\nAfaste-se dos aplicativos de aposta, bloqueie sites e procure apoio de amigos ou familiares.`
     );
   }
 
   if (msg === "2") {
     client.sendMessage(
       message.from,
-      "⚠️ Recaídas acontecem, mas não desista. Respire fundo, saia do ambiente de aposta e converse com alguém de confiança."
+      `⚠️ Recaídas acontecem, mas não desista.\n\nRespire fundo, saia do ambiente de aposta e converse com alguém de confiança.`
     );
   }
 
   if (msg === "3") {
     client.sendMessage(
       message.from,
-      "🔥 Você é maior que qualquer vício! Sua vida vale mais que qualquer aposta."
+      `🔥 Você é maior que qualquer vício!\n\nSua vida vale mais que qualquer aposta. Continue firme e um dia de cada vez.`
     );
   }
 });
