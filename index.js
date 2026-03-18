@@ -1,52 +1,48 @@
-
-const express = require("express");
-const app = express();
-
-const PORT = process.env.PORT || 3000;
-
-app.get("/", (req, res) => {
-  res.send("StopBet bot está rodando!");
-});
-
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});const { Client, LocalAuth } = require('whatsapp-web.js');
+const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 
 // 1. Inicializa o cliente com persistência de sessão
-// Isso evita que você precise ler o QR Code toda vez que o bot reiniciar
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
-        args: ['--no-sandbox', '--disable-setuid-sandbox'], // Necessário para rodar em servidores como Railway/Render
+        args: [
+            '--no-sandbox', 
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process', // Recomendado para Railway/Render
+            '--disable-gpu'
+        ]
     }
 });
 
-// 2. Gera o QR Code no terminal para você escanear
+// 2. Gera o QR Code no terminal
 client.on('qr', (qr) => {
     console.log('Escaneie o QR Code abaixo para conectar o bot:');
     qrcode.generate(qr, { small: true });
 });
 
-// 3. Aviso de que a conexão foi bem-sucedida
+// 3. Aviso de conexão bem-sucedida
 client.on('ready', () => {
     console.log('O Stopbet-whatsapp-bot está online e pronto!');
 });
 
-// 4. Lógica de resposta (Exemplo básico de ajuda)
+// 4. Lógica de resposta (Comandos de Ajuda e Apoio)
 client.on('message', async (msg) => {
-    const chat = await msg.getChat();
     const userMessage = msg.body.toLowerCase();
 
-    // Exemplo de comando de ajuda
+    // Comando de Ajuda
     if (userMessage === '!ajuda' || userMessage === 'ajuda') {
-        msg.reply('Olá! Este é o Stopbet-bot. Estamos aqui para apoiar você contra o vício em apostas. Digite "apoio" para falar com alguém ou ver recursos úteis.');
+        await msg.reply('Olá! Este é o Stopbet-bot. Estamos aqui para apoiar você contra o vício em apostas. Digite "apoio" para falar com alguém ou ver recursos úteis.');
     }
 
+    // Comando de Apoio
     if (userMessage === 'apoio') {
-        msg.reply('Você não está sozinho. Procure o Jogadores Anônimos ou ligue para centros de apoio. O primeiro passo é o mais importante.');
+        await msg.reply('Você não está sozinho. Procure o Jogadores Anônimos ou ligue para centros de apoio. O primeiro passo é o mais importante.');
     }
 });
 
 // 5. Liga o bot
-client.initiate();
+client.initialize();
